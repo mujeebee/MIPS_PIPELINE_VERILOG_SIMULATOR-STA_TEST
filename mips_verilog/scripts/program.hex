@@ -1,0 +1,16 @@
+// program.hex — loaded by $readmemh into imem[]
+// One 32-bit word per line, plain hex (no 0x prefix)
+// Matches mips_program.txt exactly, with corrected encodings
+//
+// addi $t0, $zero, 10   → R8  = 10
+2008000A
+// addi $t1, $zero, 5    → R9  = 5
+20090005
+// add  $t2, $t0, $t1   → R10 = 15  (EX→EX forwarding for both operands)
+01095020
+// sw   $t2, 16($zero)   → DataMem[16] = 15
+AC0A0010
+// lw   $t3, 16($zero)   → R11 = 15
+8C0B0010
+// beq  $t2, $t3, -6     → branch taken (R10 == R11 == 15)
+114BFFFA

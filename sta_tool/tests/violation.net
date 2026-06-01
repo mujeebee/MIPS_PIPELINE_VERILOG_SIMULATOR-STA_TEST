@@ -1,0 +1,19 @@
+# Test 2: Deep combinational path — intentional timing violation
+# Clock period too tight for the logic depth
+clock_period 300
+
+input  D0 D1 D2 D3
+output Q
+
+# 5-gate chain: worst case 80+90+120+80+90 = 460ps > 300ps clock → VIOLATION
+gate AND2  g1  D0 D1   ->  n1
+gate OR2   g2  n1 D2   ->  n2
+gate XOR2  g3  n2 D3   ->  n3
+gate AND2  g4  n3 n1   ->  n4
+gate OR2   g5  n4 n2   ->  Q
+
+# Parallel fast path (no violation)
+gate NOT   inv1 D0     ->  n_fast
+gate BUF   buf1 n_fast ->  Q2
+
+output Q2
